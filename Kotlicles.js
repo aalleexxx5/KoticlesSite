@@ -23,8 +23,9 @@ var Kotlicles = function (_, Kotlin) {
   var listOf = Kotlin.kotlin.collections.listOf_mh5how$;
   var listOf_0 = Kotlin.kotlin.collections.listOf_i5x0yv$;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var toString = Kotlin.toString;
   var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
+  var ensureNotNull = Kotlin.ensureNotNull;
+  var toString = Kotlin.toString;
   GlowingSingleLineText.prototype = Object.create(SingleLineText.prototype);
   GlowingSingleLineText.prototype.constructor = GlowingSingleLineText;
   MultilineGlowingText.prototype = Object.create(MultilineText.prototype);
@@ -982,6 +983,8 @@ var Kotlicles = function (_, Kotlin) {
     this.elementVisuals = new VisualParameters('16px serif', 3.0, 0.0, 0.0, '#000', false);
     var tmp$;
     this.htmlanimation = HTMLTypingElement_init('HTML', HTMLAnimationPage$htmlanimation$lambda, this.visuals, listOf_0([HTMLTypingElement_init('head', HTMLAnimationPage$htmlanimation$lambda_0, this.visuals, listOf_0([TypingSingleLineText_init_0('<meta charset="UTF-8">', this.elementVisuals), HTMLTypingElement_init('title', HTMLAnimationPage$htmlanimation$lambda_1, this.visuals, listOf(TypingSingleLineText_init_0('Ximias -introduction', this.elementVisuals))), HTMLTypingElement_init('style', HTMLAnimationPage$htmlanimation$lambda_2(this), this.visuals, listOf(TypingSingleLineText_init_0('{background-color:#000; color:#AAA;}', this.elementVisuals)))])), HTMLTypingElement_init('body', HTMLAnimationPage$htmlanimation$lambda_3, this.visuals, listOf(HTMLTypingElement_init('div id="menu"', HTMLAnimationPage$htmlanimation$lambda_4, this.visuals, listOf(MultilineTypingText_init_0(Kotlin.isType(tmp$ = document.getElementById('boring'), HTMLParagraphElement) ? tmp$ : throwCCE(), 30, this.elementVisuals)))))]));
+    this.skipping = false;
+    this.kotlinPage = null;
     this.wait = 120;
     this.animateHTML();
     this.darkenTime = FADE_TIME / 8 | 0;
@@ -1003,6 +1006,8 @@ var Kotlicles = function (_, Kotlin) {
     };
   }
   HTMLAnimationPage.prototype.animateHTML = function () {
+    if (this.skipping)
+      return;
     this.wipe();
     if (!this.htmlanimation.isOutOfBounds_vux9f0$(0, 0)) {
       this.htmlanimation.drawAsRoot_f69bme$(this.ctx);
@@ -1016,7 +1021,7 @@ var Kotlicles = function (_, Kotlin) {
         window.requestAnimationFrame(HTMLAnimationPage$animateHTML$lambda_0(this));
       }
        else {
-        new KotlinPage(this.ctx);
+        this.kotlinPage = new KotlinPage(this.ctx);
       }
     }
   };
@@ -1033,6 +1038,11 @@ var Kotlicles = function (_, Kotlin) {
         darkenAdjusted(this.ctx, 255);
       }
     }
+  };
+  HTMLAnimationPage.prototype.skip = function () {
+    var tmp$;
+    this.skipping = true;
+    (tmp$ = this.kotlinPage) != null ? (tmp$.skip(), Unit) : null;
   };
   function HTMLAnimationPage$htmlanimation$lambda() {
     return Unit;
@@ -1071,14 +1081,15 @@ var Kotlicles = function (_, Kotlin) {
     this.centerX = this.ctx.canvas.width / 2.0;
     this.socialX = this.centerX - this.socialDim / 2 - this.socialDim / 2;
     this.socialY = this.ctx.canvas.height - this.socialDim - this.padding;
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
-    this.facebook = new GreyoutIcon(Kotlin.isType(tmp$ = document.getElementById('facebook'), HTMLImageElement) ? tmp$ : throwCCE(), this.socialX + -1 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$facebook$lambda);
-    this.twitter = new GreyoutIcon(Kotlin.isType(tmp$_0 = document.getElementById('twitter'), HTMLImageElement) ? tmp$_0 : throwCCE(), this.socialX, this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$twitter$lambda);
-    this.git = new GreyoutIcon(Kotlin.isType(tmp$_1 = document.getElementById('git'), HTMLImageElement) ? tmp$_1 : throwCCE(), this.socialX + (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$git$lambda);
-    this.mail = new GreyoutIcon(Kotlin.isType(tmp$_2 = document.getElementById('gmail'), HTMLImageElement) ? tmp$_2 : throwCCE(), this.socialX + 2 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$mail$lambda);
-    this.ximias = new GreyoutIcon(Kotlin.isType(tmp$_3 = document.getElementById('ximias'), HTMLImageElement) ? tmp$_3 : throwCCE(), this.centerX - 128, (this.ctx.canvas.height / 2 | 0) - 128.0, 256.0, 256.0, this.fadeFrames, IndexPage$ximias$lambda);
-    this.quotes = (new MultilineLoopingPulsingText(Kotlin.isType(tmp$_4 = document.getElementById('inspiration'), HTMLParagraphElement) ? tmp$_4 : throwCCE(), FADE_TIME, '80px verdana', '#F48A00', 800, this.centerX, 85.0, true, 150)).fitToWidth_ggs6sk$(this.ctx, this.ctx.canvas.width > this.ctx.canvas.height ? this.ctx.canvas.width / 2 | 0 : this.ctx.canvas.width);
-    this.mouseElements = listOf_0([this.facebook, this.twitter, this.git, this.mail, this.ximias]);
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
+    this.facebook = new GreyoutIcon(Kotlin.isType(tmp$ = document.getElementById('facebook'), HTMLImageElement) ? tmp$ : throwCCE(), this.socialX + -2 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$facebook$lambda);
+    this.twitter = new GreyoutIcon(Kotlin.isType(tmp$_0 = document.getElementById('twitter'), HTMLImageElement) ? tmp$_0 : throwCCE(), this.socialX + -1 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$twitter$lambda);
+    this.git = new GreyoutIcon(Kotlin.isType(tmp$_1 = document.getElementById('git'), HTMLImageElement) ? tmp$_1 : throwCCE(), this.socialX + 0 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$git$lambda);
+    this.linkedin = new GreyoutIcon(Kotlin.isType(tmp$_2 = document.getElementById('linkedin'), HTMLImageElement) ? tmp$_2 : throwCCE(), this.socialX + 1 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$linkedin$lambda);
+    this.mail = new GreyoutIcon(Kotlin.isType(tmp$_3 = document.getElementById('gmail'), HTMLImageElement) ? tmp$_3 : throwCCE(), this.socialX + 2 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$mail$lambda);
+    this.ximias = new GreyoutIcon(Kotlin.isType(tmp$_4 = document.getElementById('ximias'), HTMLImageElement) ? tmp$_4 : throwCCE(), this.centerX - 128, (this.ctx.canvas.height / 2 | 0) - 128.0, 256.0, 256.0, this.fadeFrames, IndexPage$ximias$lambda);
+    this.quotes = (new MultilineLoopingPulsingText(Kotlin.isType(tmp$_5 = document.getElementById('inspiration'), HTMLParagraphElement) ? tmp$_5 : throwCCE(), FADE_TIME, '80px verdana', '#F48A00', 800, this.centerX, 85.0, true, 150)).fitToWidth_ggs6sk$(this.ctx, this.ctx.canvas.width > this.ctx.canvas.height ? this.ctx.canvas.width / 2 | 0 : this.ctx.canvas.width);
+    this.mouseElements = listOf_0([this.facebook, this.twitter, this.git, this.linkedin, this.mail, this.ximias]);
     this.mouseUpdateElements = emptyList();
     this.background = new HelixPage(this.ctx);
     this.animate_0();
@@ -1157,11 +1168,16 @@ var Kotlicles = function (_, Kotlin) {
     window.location.href = 'https://github.com/aalleexxx5';
     return Unit;
   }
+  function IndexPage$linkedin$lambda() {
+    window.location.href = 'https://www.linkedin.com/in/alex-holberg-46a610174/';
+    return Unit;
+  }
   function IndexPage$mail$lambda() {
     window.location.href = 'mailto:alexx4387@gmail.com';
     return Unit;
   }
   function IndexPage$ximias$lambda() {
+    alert('This will eventually lead to a page featuring selected side-projects, and articles about them.');
     return Unit;
   }
   function IndexPage_init$lambda(this$IndexPage) {
@@ -1199,6 +1215,8 @@ var Kotlicles = function (_, Kotlin) {
     this.lineSpace = 5;
     this.greetingText = MultilineTypingText_init(Kotlin.isType(tmp$_4 = document.getElementById('greeting'), HTMLParagraphElement) ? tmp$_4 : throwCCE(), '16px Serif', 5.0, 30, 1.0, 16.0 + this.lineSpace, false);
     this.frameCount = 0;
+    this.HTMLAnimationPage = null;
+    this.skipping_0 = false;
     this.animateExclamationMark();
   }
   function IntroPage$animateExclamationMark$lambda(this$IntroPage) {
@@ -1220,6 +1238,8 @@ var Kotlicles = function (_, Kotlin) {
     };
   }
   IntroPage.prototype.animateExclamationMark = function () {
+    if (this.skipping_0)
+      return;
     if (!this.image.isOutOfBounds_vux9f0$(0, 0)) {
       whiteFrame(this.ctx);
       this.image.draw_f69bme$(this.ctx);
@@ -1251,6 +1271,8 @@ var Kotlicles = function (_, Kotlin) {
     };
   }
   IntroPage.prototype.animateIntro = function () {
+    if (this.skipping_0)
+      return;
     if (!this.greetingText.isOutOfBounds_vux9f0$(0, 0)) {
       whiteFrame(this.ctx);
       this.greetingText.draw_f69bme$(this.ctx);
@@ -1265,9 +1287,14 @@ var Kotlicles = function (_, Kotlin) {
       }
        else {
         this.frameCount = 0;
-        new HTMLAnimationPage(this.ctx);
+        this.HTMLAnimationPage = new HTMLAnimationPage(this.ctx);
       }
     }
+  };
+  IntroPage.prototype.skip = function () {
+    var tmp$;
+    this.skipping_0 = true;
+    (tmp$ = this.HTMLAnimationPage) != null ? (tmp$.skip(), Unit) : null;
   };
   IntroPage.$metadata$ = {
     kind: Kind_CLASS,
@@ -1291,6 +1318,7 @@ var Kotlicles = function (_, Kotlin) {
     this.bulb = AppearingImage_init_1(tmp$_0, tmp$_1, tmp$_2, tmp$_3, numberToInt(Math_0.min(a_1, b_1)), -3.0);
     this.idea = (new MultilineGlowingText(Kotlin.isType(tmp$_4 = document.getElementById('idea'), HTMLParagraphElement) ? tmp$_4 : throwCCE(), '100px sans-serif', '#FF6', 10, 120, this.ctx.canvas.width / 2.0, this.ctx.canvas.height / 2.0, true)).fitToWidth_ggs6sk$(this.ctx, numberToInt(this.ctx.canvas.width / 1.5));
     this.wait = FADE_TIME;
+    this.skipping_0 = false;
     this.animateBulb();
   }
   function KotlinPage$animateBulb$lambda(this$KotlinPage) {
@@ -1306,6 +1334,8 @@ var Kotlicles = function (_, Kotlin) {
     };
   }
   KotlinPage.prototype.animateBulb = function () {
+    if (this.skipping_0)
+      return;
     if (!this.bulb.isOutOfBounds_vux9f0$(0, 0)) {
       darkenAdjusted(this.ctx, 255);
       this.bulb.draw_f69bme$(this.ctx);
@@ -1337,6 +1367,8 @@ var Kotlicles = function (_, Kotlin) {
     };
   }
   KotlinPage.prototype.animateText_0 = function () {
+    if (this.skipping_0)
+      return;
     if (!this.idea.isOutOfBounds_vux9f0$(0, 0)) {
       darkenAdjusted(this.ctx, 255);
       this.idea.draw_f69bme$(this.ctx);
@@ -1354,11 +1386,29 @@ var Kotlicles = function (_, Kotlin) {
       }
     }
   };
+  KotlinPage.prototype.skip = function () {
+    this.skipping_0 = true;
+  };
   KotlinPage.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'KotlinPage',
     interfaces: []
   };
+  var introPage;
+  function main$lambda(closure$ctx) {
+    return function (event) {
+      var closure$ctx_0 = closure$ctx;
+      var tmp$, tmp$_0;
+      if (endsWith(document.URL, '#skip') && introPage != null) {
+        ensureNotNull(introPage).skip();
+        introPage = null;
+        (tmp$_0 = (tmp$ = document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#000') : null;
+        darken(closure$ctx_0, 255);
+        new IndexPage(closure$ctx_0);
+      }
+      return Unit;
+    };
+  }
   function main(args) {
     var tmp$, tmp$_0;
     var canvas = Kotlin.isType(tmp$ = document.getElementById('where the magic happens'), HTMLCanvasElement) ? tmp$ : throwCCE();
@@ -1369,6 +1419,7 @@ var Kotlicles = function (_, Kotlin) {
     frameRateCalculator(ctx);
     var x = adjustForFrameRate(255.0);
     FADE_TIME = numberToInt(Math_0.ceil(x));
+    window.addEventListener('hashchange', main$lambda(ctx));
   }
   var FADE_TIME;
   function darkenAdjusted($receiver, amount) {
@@ -1435,7 +1486,7 @@ var Kotlicles = function (_, Kotlin) {
         new IndexPage(ctx);
       }
        else {
-        new IntroPage(ctx);
+        introPage = new IntroPage(ctx);
       }
     }
   }
@@ -1483,6 +1534,14 @@ var Kotlicles = function (_, Kotlin) {
   package$Pages.IndexPage = IndexPage;
   package$Pages.IntroPage = IntroPage;
   package$Pages.KotlinPage = KotlinPage;
+  Object.defineProperty(package$Pages, 'introPage', {
+    get: function () {
+      return introPage;
+    },
+    set: function (value) {
+      introPage = value;
+    }
+  });
   package$Pages.main_kand9s$ = main;
   Object.defineProperty(package$Pages, 'FADE_TIME', {
     get: function () {
@@ -1521,6 +1580,7 @@ var Kotlicles = function (_, Kotlin) {
   });
   package$Pages.frameRateCalculator_f69bme$ = frameRateCalculator;
   package$Pages.adjustForFrameRate_14dthe$ = adjustForFrameRate;
+  introPage = null;
   FADE_TIME = 255;
   frameCalCount = 0;
   startTime = new Date();
