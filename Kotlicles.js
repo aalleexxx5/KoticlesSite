@@ -1400,8 +1400,8 @@ var Kotlicles = function (_, Kotlin) {
     return function (event) {
       var closure$ctx_0 = closure$ctx;
       var tmp$, tmp$_0;
-      print(document.URL);
-      if (endsWith(document.URL, '#skip') && introPage != null) {
+      print(window.location.hash);
+      if (endsWith(window.location.hash, 'skip') && introPage != null) {
         ensureNotNull(introPage).skip();
         introPage = null;
         (tmp$_0 = (tmp$ = document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#000') : null;
@@ -1483,7 +1483,7 @@ var Kotlicles = function (_, Kotlin) {
       window.requestAnimationFrame(frameRateCalculator$lambda(ctx));
     }
      else {
-      if (endsWith(document.URL, '#skip')) {
+      if (endsWith(window.location.hash, 'skip')) {
         (tmp$_0 = (tmp$ = document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#000') : null;
         new IndexPage(ctx);
       }
