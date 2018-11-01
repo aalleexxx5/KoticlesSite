@@ -23,6 +23,7 @@ var Kotlicles = function (_, Kotlin) {
   var listOf = Kotlin.kotlin.collections.listOf_mh5how$;
   var listOf_0 = Kotlin.kotlin.collections.listOf_i5x0yv$;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var print = Kotlin.kotlin.io.print_s8jyv4$;
   var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var toString = Kotlin.toString;
@@ -1399,6 +1400,7 @@ var Kotlicles = function (_, Kotlin) {
     return function (event) {
       var closure$ctx_0 = closure$ctx;
       var tmp$, tmp$_0;
+      print(document.URL);
       if (endsWith(document.URL, '#skip') && introPage != null) {
         ensureNotNull(introPage).skip();
         introPage = null;
