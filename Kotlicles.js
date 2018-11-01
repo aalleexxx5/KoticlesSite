@@ -23,7 +23,6 @@ var Kotlicles = function (_, Kotlin) {
   var listOf = Kotlin.kotlin.collections.listOf_mh5how$;
   var listOf_0 = Kotlin.kotlin.collections.listOf_i5x0yv$;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var print = Kotlin.kotlin.io.print_s8jyv4$;
   var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var toString = Kotlin.toString;
@@ -1399,12 +1398,12 @@ var Kotlicles = function (_, Kotlin) {
   function main$lambda(closure$ctx) {
     return function (event) {
       var closure$ctx_0 = closure$ctx;
-      var tmp$, tmp$_0;
-      print(window.location.hash);
+      var tmp$, tmp$_0, tmp$_1;
       if (endsWith(window.location.hash, 'skip') && introPage != null) {
         ensureNotNull(introPage).skip();
         introPage = null;
         (tmp$_0 = (tmp$ = document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#000') : null;
+        (tmp$_1 = document.head) != null ? (tmp$_1.title = 'Ximias -introduction') : null;
         darken(closure$ctx_0, 255);
         new IndexPage(closure$ctx_0);
       }
@@ -1473,7 +1472,7 @@ var Kotlicles = function (_, Kotlin) {
     };
   }
   function frameRateCalculator(ctx) {
-    var tmp$, tmp$_0;
+    var tmp$, tmp$_0, tmp$_1;
     frameCalCount = frameCalCount + 1 | 0;
     darkenAdjusted(ctx, 3);
     fps = 1000 / (((new Date()).getTime() - startTime.getTime()) / frameCalCount);
@@ -1485,6 +1484,7 @@ var Kotlicles = function (_, Kotlin) {
      else {
       if (endsWith(window.location.hash, 'skip')) {
         (tmp$_0 = (tmp$ = document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#000') : null;
+        (tmp$_1 = document.head) != null ? (tmp$_1.title = 'Ximias -introduction') : null;
         new IndexPage(ctx);
       }
        else {
