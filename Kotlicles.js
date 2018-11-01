@@ -9,6 +9,7 @@ var Kotlicles = function (_, Kotlin) {
   var numberToInt = Kotlin.numberToInt;
   var Unit = Kotlin.kotlin.Unit;
   var first = Kotlin.kotlin.collections.first_us0mfu$;
+  var math = Kotlin.kotlin.math;
   var last = Kotlin.kotlin.collections.last_2p1efm$;
   var indexOf = Kotlin.kotlin.text.indexOf_l5u8uk$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
@@ -18,11 +19,12 @@ var Kotlicles = function (_, Kotlin) {
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var replace = Kotlin.kotlin.text.replace_680rmw$;
   var filterNotNull = Kotlin.kotlin.collections.filterNotNull_emfgvx$;
-  var toString = Kotlin.toString;
-  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var equals = Kotlin.equals;
   var listOf = Kotlin.kotlin.collections.listOf_mh5how$;
   var listOf_0 = Kotlin.kotlin.collections.listOf_i5x0yv$;
+  var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var toString = Kotlin.toString;
+  var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
   GlowingSingleLineText.prototype = Object.create(SingleLineText.prototype);
   GlowingSingleLineText.prototype.constructor = GlowingSingleLineText;
   MultilineGlowingText.prototype = Object.create(MultilineText.prototype);
@@ -66,11 +68,30 @@ var Kotlicles = function (_, Kotlin) {
   AppearingImage.prototype.update = function () {
     this.dynamics.update();
   };
+  var Math_0 = Math;
   AppearingImage.prototype.isOutOfBounds_vux9f0$ = function (width, height) {
-    return Math.abs(this.dynamics.x) > this.image.width || Math.abs(this.dynamics.y) > this.image.height;
+    var x = this.dynamics.x;
+    var tmp$ = Math_0.abs(x) > this.image.width;
+    if (!tmp$) {
+      var x_0 = this.dynamics.y;
+      tmp$ = Math_0.abs(x_0) > this.image.height;
+    }
+    return tmp$;
   };
   AppearingImage.prototype.draw_f69bme$ = function (ctx) {
-    ctx.drawImage(this.image, this.dynamics.dx <= 0 ? 0.0 : this.image.width - this.dynamics.x, this.dynamics.dy <= 0 ? 0.0 : this.image.height - this.dynamics.y, Math.abs(this.dynamics.x) * this.image.naturalWidth / this.image.width, Math.abs(this.dynamics.y) * this.image.naturalHeight / this.image.height, this.dynamics.dx >= 0 ? this.appearX : this.appearX + this.dynamics.x, this.dynamics.dy >= 0 ? this.appearY : this.appearY + this.dynamics.y, Math.abs(this.dynamics.x), Math.abs(this.dynamics.y));
+    var tmp$ = this.image;
+    var tmp$_0 = this.dynamics.dx <= 0 ? 0.0 : this.image.width - this.dynamics.x;
+    var tmp$_1 = this.dynamics.dy <= 0 ? 0.0 : this.image.height - this.dynamics.y;
+    var x = this.dynamics.x;
+    var tmp$_2 = Math_0.abs(x) * this.image.naturalWidth / this.image.width;
+    var x_0 = this.dynamics.y;
+    var tmp$_3 = Math_0.abs(x_0) * this.image.naturalHeight / this.image.height;
+    var tmp$_4 = this.dynamics.dx >= 0 ? this.appearX : this.appearX + this.dynamics.x;
+    var tmp$_5 = this.dynamics.dy >= 0 ? this.appearY : this.appearY + this.dynamics.y;
+    var x_1 = this.dynamics.x;
+    var tmp$_6 = Math_0.abs(x_1);
+    var x_2 = this.dynamics.y;
+    ctx.drawImage(tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, Math_0.abs(x_2));
   };
   AppearingImage.$metadata$ = {
     kind: Kind_CLASS,
@@ -103,7 +124,8 @@ var Kotlicles = function (_, Kotlin) {
     this.width = width;
     this.height = height;
     this.onClick = onClick;
-    this.fadeFrames = Math.ceil(adjustForFrameRate(fadeFrames));
+    var x = adjustForFrameRate(fadeFrames);
+    this.fadeFrames = numberToInt(Math_0.ceil(x));
     this.step = this.fadeFrames;
     this.greyImage = null;
     var tmp$, tmp$_0;
@@ -245,7 +267,7 @@ var Kotlicles = function (_, Kotlin) {
     var tmp$;
     tmp$ = array.length - 1 | 0;
     for (var i = 0; i <= tmp$; i++) {
-      array[i] = new LineHelix(new Dynamics(this.dynamics.x, this.dynamics.y, 2 * Math.PI / this.n * i, this.dynamics.dx, this.dynamics.dy, this.dynamics.dr), this.radius);
+      array[i] = new LineHelix(new Dynamics(this.dynamics.x, this.dynamics.y, 2 * math.PI / this.n * i, this.dynamics.dx, this.dynamics.dy, this.dynamics.dr), this.radius);
     }
     this.helices = array;
   }
@@ -289,7 +311,7 @@ var Kotlicles = function (_, Kotlin) {
     grad.addColorStop(0.2, '#000');
     ctx.fillStyle = grad;
     ctx.rotate(this.dynamics.r);
-    ctx.arc(0.0, 0.0, this.radius, 0.0, 2 * Math.PI);
+    ctx.arc(0.0, 0.0, this.radius, 0.0, 2 * math.PI);
     ctx.fill();
     ctx.restore();
   };
@@ -407,7 +429,8 @@ var Kotlicles = function (_, Kotlin) {
     this.beginTag = new TypingSingleLineText('<' + this.name + '>', this.font, this.framesPrChar, 0.0, 0.0, false, this.color);
     this.wait = 0;
     this.currentElement = 0;
-    this.WAIT_PR_ELEMENT = Math.floor(adjustForFrameRate(80.0));
+    var x = adjustForFrameRate(80.0);
+    this.WAIT_PR_ELEMENT = numberToInt(Math_0.floor(x));
     this.hasActionBeenInvoked = false;
   }
   HTMLTypingElement.prototype.update = function () {
@@ -518,8 +541,9 @@ var Kotlicles = function (_, Kotlin) {
     simpleName: 'VisualParameters',
     interfaces: []
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function MultilineGlowingText(text, font, color, fadeInTime, lineTime, locationX, locationY, centered) {
     MultilineText.call(this, lineTime);
     this.font = font;
@@ -537,7 +561,7 @@ var Kotlicles = function (_, Kotlin) {
       if (!(element.length === 0))
         destination.add_11rb$(element);
     }
-    var destination_0 = ArrayList_init(collectionSizeOrDefault(destination, 10));
+    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(destination, 10));
     var tmp$_0, tmp$_0_0;
     var index = 0;
     tmp$_0 = destination.iterator();
@@ -580,7 +604,7 @@ var Kotlicles = function (_, Kotlin) {
       if (!(element.length === 0))
         destination.add_11rb$(element);
     }
-    var destination_0 = ArrayList_init(collectionSizeOrDefault(destination, 10));
+    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(destination, 10));
     var tmp$_0;
     tmp$_0 = destination.iterator();
     while (tmp$_0.hasNext()) {
@@ -619,7 +643,8 @@ var Kotlicles = function (_, Kotlin) {
     interfaces: [MultilineText]
   };
   function MultilineText(lineTime) {
-    this.lineTime = Math.ceil(adjustForFrameRate(lineTime));
+    var x = adjustForFrameRate(lineTime);
+    this.lineTime = numberToInt(Math_0.ceil(x));
     this.wait = 0;
     this.currentLine = 0;
   }
@@ -697,7 +722,7 @@ var Kotlicles = function (_, Kotlin) {
       if (!(element.length === 0))
         destination.add_11rb$(element);
     }
-    var destination_0 = ArrayList_init(collectionSizeOrDefault(destination, 10));
+    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(destination, 10));
     var tmp$_0, tmp$_0_0;
     var index = 0;
     tmp$_0 = destination.iterator();
@@ -747,7 +772,9 @@ var Kotlicles = function (_, Kotlin) {
     if (this.getHeight() > 15) {
       ctx.fillStyle = '#000';
       ctx.shadowColor = this.color;
-      ctx.shadowBlur = this.getHeight() / Math.abs(this.currentFrame % (this.pulseLength * 2 | 0) - this.pulseLength);
+      var tmp$ = this.getHeight();
+      var x = this.currentFrame % (this.pulseLength * 2 | 0) - this.pulseLength;
+      ctx.shadowBlur = tmp$ / Math_0.abs(x);
     }
      else {
       ctx.fillStyle = this.color;
@@ -949,179 +976,9 @@ var Kotlicles = function (_, Kotlin) {
     simpleName: 'HelixPage',
     interfaces: []
   };
-  var Math_0 = Math;
-  function Page(ctx) {
-    this.ctx = ctx;
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
-    tmp$_0 = Kotlin.isType(tmp$ = document.getElementById('exclamation'), HTMLImageElement) ? tmp$ : throwCCE();
-    tmp$_1 = this.ctx.canvas.width / 2.0;
-    var tmp$_5 = this.ctx.canvas.height;
-    var a = this.ctx.canvas.width * 0.75;
-    var b = this.ctx.canvas.height * 0.75;
-    tmp$_2 = (tmp$_5 + Math_0.min(a, b)) / 2;
-    var a_0 = this.ctx.canvas.width * 0.75;
-    var b_0 = this.ctx.canvas.height * 0.75;
-    tmp$_3 = numberToInt(Math_0.min(a_0, b_0));
-    var a_1 = this.ctx.canvas.width * 0.75;
-    var b_1 = this.ctx.canvas.height * 0.75;
-    this.image = AppearingImage_init_1(tmp$_0, tmp$_1, tmp$_2, tmp$_3, numberToInt(Math_0.min(a_1, b_1)), -3.0);
-    this.lineSpace = 5;
-    this.greetingText = MultilineTypingText_init(Kotlin.isType(tmp$_4 = document.getElementById('greeting'), HTMLParagraphElement) ? tmp$_4 : throwCCE(), '16px Serif', 5.0, 30, 1.0, 16.0 + this.lineSpace, false);
-    this.frameCount = 0;
-    this.animateExclamationMark();
-  }
-  function Page$animateExclamationMark$lambda(this$Page) {
-    return function (it) {
-      this$Page.animateExclamationMark();
-      return Unit;
-    };
-  }
-  function Page$animateExclamationMark$lambda_0(this$Page) {
-    return function (it) {
-      this$Page.animateIntro();
-      return Unit;
-    };
-  }
-  function Page$animateExclamationMark$lambda_1(this$Page) {
-    return function (it) {
-      this$Page.animateExclamationMark();
-      return Unit;
-    };
-  }
-  Page.prototype.animateExclamationMark = function () {
-    if (!this.image.isOutOfBounds_vux9f0$(0, 0)) {
-      whiteFrame(this.ctx);
-      this.image.draw_f69bme$(this.ctx);
-      this.image.update();
-      window.requestAnimationFrame(Page$animateExclamationMark$lambda(this));
-    }
-     else {
-      if (this.frameCount > (FADE_TIME / 4 | 0)) {
-        this.frameCount = 0;
-        window.requestAnimationFrame(Page$animateExclamationMark$lambda_0(this));
-      }
-       else {
-        this.frameCount = this.frameCount + 1 | 0;
-        darkenAdjusted(this.ctx, 4);
-        window.requestAnimationFrame(Page$animateExclamationMark$lambda_1(this));
-      }
-    }
-  };
-  function Page$animateIntro$lambda(this$Page) {
-    return function (it) {
-      this$Page.animateIntro();
-      return Unit;
-    };
-  }
-  function Page$animateIntro$lambda_0(this$Page) {
-    return function (it) {
-      this$Page.animateIntro();
-      return Unit;
-    };
-  }
-  Page.prototype.animateIntro = function () {
-    if (!this.greetingText.isOutOfBounds_vux9f0$(0, 0)) {
-      whiteFrame(this.ctx);
-      this.greetingText.draw_f69bme$(this.ctx);
-      this.greetingText.update();
-      window.requestAnimationFrame(Page$animateIntro$lambda(this));
-    }
-     else {
-      if (this.frameCount <= (FADE_TIME / 3 | 0)) {
-        this.frameCount = this.frameCount + 1 | 0;
-        darkenAdjusted(this.ctx, 3);
-        window.requestAnimationFrame(Page$animateIntro$lambda_0(this));
-      }
-       else {
-        this.frameCount = 0;
-        new HTMLAnimationPage(this.ctx);
-      }
-    }
-  };
-  Page.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'Page',
-    interfaces: []
-  };
-  function main(args) {
-    var tmp$, tmp$_0;
-    var canvas = Kotlin.isType(tmp$ = document.getElementById('where the magic happens'), HTMLCanvasElement) ? tmp$ : throwCCE();
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    var ctx = Kotlin.isType(tmp$_0 = canvas.getContext('2d'), CanvasRenderingContext2D) ? tmp$_0 : throwCCE();
-    ctx.globalCompositeOperation = 'source-over';
-    frameRateCalculator(ctx);
-    var x = adjustForFrameRate(255.0);
-    FADE_TIME = numberToInt(Math_0.ceil(x));
-  }
-  var FADE_TIME;
-  function darkenAdjusted($receiver, amount) {
-    var tmp$;
-    var x = (amount * 60 | 0) / fps;
-    var adjAmount = numberToInt(Math_0.ceil(x));
-    var ctx = $receiver;
-    var width = $receiver.canvas.width;
-    var height = $receiver.canvas.height;
-    var imageData = ctx.getImageData(0.0, 0.0, width, height);
-    var data = new Uint32Array(imageData.data.buffer);
-    tmp$ = data.length;
-    for (var i = 0; i < tmp$; i++) {
-      if (data[i] === 0)
-        continue;
-      var alpha = data[i] >>> 24;
-      if (alpha >= adjAmount) {
-        data[i] = data[i] & 16777215 | alpha - adjAmount << 24;
-      }
-       else {
-        data[i] = 0;
-      }
-    }
-    ctx.putImageData(imageData, 0.0, 0.0);
-  }
-  function darken($receiver, amount) {
-    var ctx = $receiver;
-    var width = $receiver.canvas.width;
-    var height = $receiver.canvas.height;
-    var lastImage = ctx.getImageData(0, 0, width, height);
-    var pixelData = lastImage.data;
-    var i;
-    for (i = 3; i < pixelData.length; i += 4) {
-      pixelData[i] -= amount;
-    }
-    ctx.putImageData(lastImage, 0, 0);
-  }
-  function whiteFrame($receiver) {
-    $receiver.fillStyle = '#FFF';
-    $receiver.fillRect(0.0, 0.0, $receiver.canvas.width, $receiver.canvas.height);
-  }
-  var frameCalCount;
-  var startTime;
-  var fps;
-  function frameRateCalculator$lambda(closure$ctx) {
-    return function (it) {
-      frameRateCalculator(closure$ctx);
-      return Unit;
-    };
-  }
-  function frameRateCalculator(ctx) {
-    frameCalCount = frameCalCount + 1 | 0;
-    darkenAdjusted(ctx, 3);
-    fps = 1000 / (((new Date()).getTime() - startTime.getTime()) / frameCalCount);
-    if (frameCalCount % 10 === 0)
-      println('fps: ' + toString(fps));
-    if (frameCalCount < 50) {
-      window.requestAnimationFrame(frameRateCalculator$lambda(ctx));
-    }
-     else {
-      new Page(ctx);
-    }
-  }
-  function adjustForFrameRate(framesIn60) {
-    return framesIn60 * (fps / 60.0);
-  }
   function HTMLAnimationPage(ctx) {
     this.ctx = ctx;
-    this.visuals = new VisualParameters('16px serif', 3.0, 0.0, 16.0, '#000', false);
+    this.visuals = new VisualParameters('16px serif', 5.0, 0.0, 16.0, '#000', false);
     this.elementVisuals = new VisualParameters('16px serif', 3.0, 0.0, 0.0, '#000', false);
     var tmp$;
     this.htmlanimation = HTMLTypingElement_init('HTML', HTMLAnimationPage$htmlanimation$lambda, this.visuals, listOf_0([HTMLTypingElement_init('head', HTMLAnimationPage$htmlanimation$lambda_0, this.visuals, listOf_0([TypingSingleLineText_init_0('<meta charset="UTF-8">', this.elementVisuals), HTMLTypingElement_init('title', HTMLAnimationPage$htmlanimation$lambda_1, this.visuals, listOf(TypingSingleLineText_init_0('Ximias -introduction', this.elementVisuals))), HTMLTypingElement_init('style', HTMLAnimationPage$htmlanimation$lambda_2(this), this.visuals, listOf(TypingSingleLineText_init_0('{background-color:#000; color:#AAA;}', this.elementVisuals)))])), HTMLTypingElement_init('body', HTMLAnimationPage$htmlanimation$lambda_3, this.visuals, listOf(HTMLTypingElement_init('div id="menu"', HTMLAnimationPage$htmlanimation$lambda_4, this.visuals, listOf(MultilineTypingText_init_0(Kotlin.isType(tmp$ = document.getElementById('boring'), HTMLParagraphElement) ? tmp$ : throwCCE(), 30, this.elementVisuals)))))]));
@@ -1324,11 +1181,115 @@ var Kotlicles = function (_, Kotlin) {
     simpleName: 'IndexPage',
     interfaces: []
   };
+  function IntroPage(ctx) {
+    this.ctx = ctx;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+    tmp$_0 = Kotlin.isType(tmp$ = document.getElementById('exclamation'), HTMLImageElement) ? tmp$ : throwCCE();
+    tmp$_1 = this.ctx.canvas.width / 2.0;
+    var tmp$_5 = this.ctx.canvas.height;
+    var a = this.ctx.canvas.width * 0.75;
+    var b = this.ctx.canvas.height * 0.75;
+    tmp$_2 = (tmp$_5 + Math_0.min(a, b)) / 2;
+    var a_0 = this.ctx.canvas.width * 0.75;
+    var b_0 = this.ctx.canvas.height * 0.75;
+    tmp$_3 = numberToInt(Math_0.min(a_0, b_0));
+    var a_1 = this.ctx.canvas.width * 0.75;
+    var b_1 = this.ctx.canvas.height * 0.75;
+    this.image = AppearingImage_init_1(tmp$_0, tmp$_1, tmp$_2, tmp$_3, numberToInt(Math_0.min(a_1, b_1)), -3.0);
+    this.lineSpace = 5;
+    this.greetingText = MultilineTypingText_init(Kotlin.isType(tmp$_4 = document.getElementById('greeting'), HTMLParagraphElement) ? tmp$_4 : throwCCE(), '16px Serif', 5.0, 30, 1.0, 16.0 + this.lineSpace, false);
+    this.frameCount = 0;
+    this.animateExclamationMark();
+  }
+  function IntroPage$animateExclamationMark$lambda(this$IntroPage) {
+    return function (it) {
+      this$IntroPage.animateExclamationMark();
+      return Unit;
+    };
+  }
+  function IntroPage$animateExclamationMark$lambda_0(this$IntroPage) {
+    return function (it) {
+      this$IntroPage.animateIntro();
+      return Unit;
+    };
+  }
+  function IntroPage$animateExclamationMark$lambda_1(this$IntroPage) {
+    return function (it) {
+      this$IntroPage.animateExclamationMark();
+      return Unit;
+    };
+  }
+  IntroPage.prototype.animateExclamationMark = function () {
+    if (!this.image.isOutOfBounds_vux9f0$(0, 0)) {
+      whiteFrame(this.ctx);
+      this.image.draw_f69bme$(this.ctx);
+      this.image.update();
+      window.requestAnimationFrame(IntroPage$animateExclamationMark$lambda(this));
+    }
+     else {
+      if (this.frameCount > (FADE_TIME / 4 | 0)) {
+        this.frameCount = 0;
+        window.requestAnimationFrame(IntroPage$animateExclamationMark$lambda_0(this));
+      }
+       else {
+        this.frameCount = this.frameCount + 1 | 0;
+        darkenAdjusted(this.ctx, 4);
+        window.requestAnimationFrame(IntroPage$animateExclamationMark$lambda_1(this));
+      }
+    }
+  };
+  function IntroPage$animateIntro$lambda(this$IntroPage) {
+    return function (it) {
+      this$IntroPage.animateIntro();
+      return Unit;
+    };
+  }
+  function IntroPage$animateIntro$lambda_0(this$IntroPage) {
+    return function (it) {
+      this$IntroPage.animateIntro();
+      return Unit;
+    };
+  }
+  IntroPage.prototype.animateIntro = function () {
+    if (!this.greetingText.isOutOfBounds_vux9f0$(0, 0)) {
+      whiteFrame(this.ctx);
+      this.greetingText.draw_f69bme$(this.ctx);
+      this.greetingText.update();
+      window.requestAnimationFrame(IntroPage$animateIntro$lambda(this));
+    }
+     else {
+      if (this.frameCount <= (FADE_TIME / 3 | 0)) {
+        this.frameCount = this.frameCount + 1 | 0;
+        darkenAdjusted(this.ctx, 3);
+        window.requestAnimationFrame(IntroPage$animateIntro$lambda_0(this));
+      }
+       else {
+        this.frameCount = 0;
+        new HTMLAnimationPage(this.ctx);
+      }
+    }
+  };
+  IntroPage.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'IntroPage',
+    interfaces: []
+  };
   function KotlinPage(ctx) {
     this.ctx = ctx;
-    var tmp$, tmp$_0;
-    this.bulb = AppearingImage_init_1(Kotlin.isType(tmp$ = document.getElementById('light'), HTMLImageElement) ? tmp$ : throwCCE(), this.ctx.canvas.width / 2.0, (this.ctx.canvas.height + Math.min(this.ctx.canvas.width * 0.75, this.ctx.canvas.height * 0.75)) / 2, numberToInt(Math.min(this.ctx.canvas.width * 0.75, this.ctx.canvas.height * 0.75)), numberToInt(Math.min(this.ctx.canvas.width * 0.75, this.ctx.canvas.height * 0.75)), -3.0);
-    this.idea = (new MultilineGlowingText(Kotlin.isType(tmp$_0 = document.getElementById('idea'), HTMLParagraphElement) ? tmp$_0 : throwCCE(), '100px sans-serif', '#FF6', 10, 120, this.ctx.canvas.width / 2.0, this.ctx.canvas.height / 2.0, true)).fitToWidth_ggs6sk$(this.ctx, numberToInt(this.ctx.canvas.width / 1.5));
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+    tmp$_0 = Kotlin.isType(tmp$ = document.getElementById('light'), HTMLImageElement) ? tmp$ : throwCCE();
+    tmp$_1 = this.ctx.canvas.width / 2.0;
+    var tmp$_5 = this.ctx.canvas.height;
+    var a = this.ctx.canvas.width * 0.75;
+    var b = this.ctx.canvas.height * 0.75;
+    tmp$_2 = (tmp$_5 + Math_0.min(a, b)) / 2;
+    var a_0 = this.ctx.canvas.width * 0.75;
+    var b_0 = this.ctx.canvas.height * 0.75;
+    tmp$_3 = numberToInt(Math_0.min(a_0, b_0));
+    var a_1 = this.ctx.canvas.width * 0.75;
+    var b_1 = this.ctx.canvas.height * 0.75;
+    this.bulb = AppearingImage_init_1(tmp$_0, tmp$_1, tmp$_2, tmp$_3, numberToInt(Math_0.min(a_1, b_1)), -3.0);
+    this.idea = (new MultilineGlowingText(Kotlin.isType(tmp$_4 = document.getElementById('idea'), HTMLParagraphElement) ? tmp$_4 : throwCCE(), '100px sans-serif', '#FF6', 10, 120, this.ctx.canvas.width / 2.0, this.ctx.canvas.height / 2.0, true)).fitToWidth_ggs6sk$(this.ctx, numberToInt(this.ctx.canvas.width / 1.5));
     this.wait = FADE_TIME;
     this.animateBulb();
   }
@@ -1398,6 +1359,89 @@ var Kotlicles = function (_, Kotlin) {
     simpleName: 'KotlinPage',
     interfaces: []
   };
+  function main(args) {
+    var tmp$, tmp$_0;
+    var canvas = Kotlin.isType(tmp$ = document.getElementById('where the magic happens'), HTMLCanvasElement) ? tmp$ : throwCCE();
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = Kotlin.isType(tmp$_0 = canvas.getContext('2d'), CanvasRenderingContext2D) ? tmp$_0 : throwCCE();
+    ctx.globalCompositeOperation = 'source-over';
+    frameRateCalculator(ctx);
+    var x = adjustForFrameRate(255.0);
+    FADE_TIME = numberToInt(Math_0.ceil(x));
+  }
+  var FADE_TIME;
+  function darkenAdjusted($receiver, amount) {
+    var tmp$;
+    var x = (amount * 60 | 0) / fps;
+    var adjAmount = numberToInt(Math_0.ceil(x));
+    var ctx = $receiver;
+    var width = $receiver.canvas.width;
+    var height = $receiver.canvas.height;
+    var imageData = ctx.getImageData(0.0, 0.0, width, height);
+    var data = new Uint32Array(imageData.data.buffer);
+    tmp$ = data.length;
+    for (var i = 0; i < tmp$; i++) {
+      if (data[i] === 0)
+        continue;
+      var alpha = data[i] >>> 24;
+      if (alpha >= adjAmount) {
+        data[i] = data[i] & 16777215 | alpha - adjAmount << 24;
+      }
+       else {
+        data[i] = 0;
+      }
+    }
+    ctx.putImageData(imageData, 0.0, 0.0);
+  }
+  function darken($receiver, amount) {
+    var ctx = $receiver;
+    var width = $receiver.canvas.width;
+    var height = $receiver.canvas.height;
+    var lastImage = ctx.getImageData(0, 0, width, height);
+    var pixelData = lastImage.data;
+    var i;
+    for (i = 3; i < pixelData.length; i += 4) {
+      pixelData[i] -= amount;
+    }
+    ctx.putImageData(lastImage, 0, 0);
+  }
+  function whiteFrame($receiver) {
+    $receiver.fillStyle = '#FFF';
+    $receiver.fillRect(0.0, 0.0, $receiver.canvas.width, $receiver.canvas.height);
+  }
+  var frameCalCount;
+  var startTime;
+  var fps;
+  function frameRateCalculator$lambda(closure$ctx) {
+    return function (it) {
+      frameRateCalculator(closure$ctx);
+      return Unit;
+    };
+  }
+  function frameRateCalculator(ctx) {
+    var tmp$, tmp$_0;
+    frameCalCount = frameCalCount + 1 | 0;
+    darkenAdjusted(ctx, 3);
+    fps = 1000 / (((new Date()).getTime() - startTime.getTime()) / frameCalCount);
+    if (frameCalCount % 10 === 0)
+      println('fps: ' + toString(fps));
+    if (frameCalCount < 50) {
+      window.requestAnimationFrame(frameRateCalculator$lambda(ctx));
+    }
+     else {
+      if (endsWith(document.URL, '#skip')) {
+        (tmp$_0 = (tmp$ = document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#000') : null;
+        new IndexPage(ctx);
+      }
+       else {
+        new IntroPage(ctx);
+      }
+    }
+  }
+  function adjustForFrameRate(framesIn60) {
+    return framesIn60 * (fps / 60.0);
+  }
   var package$Elements = _.Elements || (_.Elements = {});
   package$Elements.Animatable = Animatable;
   package$Elements.Clickable = Clickable;
@@ -1435,7 +1479,10 @@ var Kotlicles = function (_, Kotlin) {
   package$Text.TypingSingleLineText = TypingSingleLineText;
   var package$Pages = _.Pages || (_.Pages = {});
   package$Pages.HelixPage = HelixPage;
-  package$Pages.Page = Page;
+  package$Pages.HTMLAnimationPage = HTMLAnimationPage;
+  package$Pages.IndexPage = IndexPage;
+  package$Pages.IntroPage = IntroPage;
+  package$Pages.KotlinPage = KotlinPage;
   package$Pages.main_kand9s$ = main;
   Object.defineProperty(package$Pages, 'FADE_TIME', {
     get: function () {
@@ -1474,9 +1521,6 @@ var Kotlicles = function (_, Kotlin) {
   });
   package$Pages.frameRateCalculator_f69bme$ = frameRateCalculator;
   package$Pages.adjustForFrameRate_14dthe$ = adjustForFrameRate;
-  package$Pages.HTMLAnimationPage = HTMLAnimationPage;
-  package$Pages.IndexPage = IndexPage;
-  package$Pages.KotlinPage = KotlinPage;
   FADE_TIME = 255;
   frameCalCount = 0;
   startTime = new Date();
@@ -1485,5 +1529,3 @@ var Kotlicles = function (_, Kotlin) {
   Kotlin.defineModule('Kotlicles', _);
   return _;
 }(typeof Kotlicles === 'undefined' ? {} : Kotlicles, kotlin);
-
-//# sourceMappingURL=Kotlicles.js.map
