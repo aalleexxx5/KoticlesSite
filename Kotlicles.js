@@ -6,19 +6,26 @@ var Kotlicles = function (_, Kotlin) {
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var throwCCE = Kotlin.throwCCE;
+  var Math_0 = Math;
   var numberToInt = Kotlin.numberToInt;
-  var Unit = Kotlin.kotlin.Unit;
   var first = Kotlin.kotlin.collections.first_us0mfu$;
   var math = Kotlin.kotlin.math;
+  var Array_0 = Array;
   var last = Kotlin.kotlin.collections.last_2p1efm$;
   var indexOf = Kotlin.kotlin.text.indexOf_l5u8uk$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
   var split = Kotlin.kotlin.text.split_ip8yn$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var checkIndexOverflow = Kotlin.kotlin.collections.checkIndexOverflow_za3lpa$;
   var first_0 = Kotlin.kotlin.collections.first_2p1efm$;
+  var copyToArray = Kotlin.kotlin.collections.copyToArray;
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var replace = Kotlin.kotlin.text.replace_680rmw$;
   var filterNotNull = Kotlin.kotlin.collections.filterNotNull_emfgvx$;
+  var Unit = Kotlin.kotlin.Unit;
   var equals = Kotlin.equals;
   var listOf = Kotlin.kotlin.collections.listOf_mh5how$;
   var listOf_0 = Kotlin.kotlin.collections.listOf_i5x0yv$;
@@ -26,6 +33,7 @@ var Kotlicles = function (_, Kotlin) {
   var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var toString = Kotlin.toString;
+  var Random = Kotlin.kotlin.random.Random_za3lpa$;
   GlowingSingleLineText.prototype = Object.create(SingleLineText.prototype);
   GlowingSingleLineText.prototype.constructor = GlowingSingleLineText;
   MultilineGlowingText.prototype = Object.create(MultilineText.prototype);
@@ -69,7 +77,6 @@ var Kotlicles = function (_, Kotlin) {
   AppearingImage.prototype.update = function () {
     this.dynamics.update();
   };
-  var Math_0 = Math;
   AppearingImage.prototype.isOutOfBounds_vux9f0$ = function (width, height) {
     var x = this.dynamics.x;
     var tmp$ = Math_0.abs(x) > this.image.width;
@@ -118,19 +125,28 @@ var Kotlicles = function (_, Kotlin) {
     $this.image.height = height;
     return $this;
   }
-  function GreyoutIcon(image, locationX, locationY, width, height, fadeFrames, onClick) {
+  function GreyoutIcon(image, locationX, locationY, width, height, fadeFrames, onClick, fadeInterval, fadeDelay) {
+    if (fadeInterval === void 0)
+      fadeInterval = 0;
+    if (fadeDelay === void 0)
+      fadeDelay = 0;
     this.image = image;
     this.locationX = locationX;
     this.locationY = locationY;
     this.width = width;
     this.height = height;
     this.onClick = onClick;
+    this.fadeInterval = fadeInterval;
+    this.fadeDelay = fadeDelay;
     var x = adjustForFrameRate(fadeFrames);
     this.fadeFrames = numberToInt(Math_0.ceil(x));
     this.step = this.fadeFrames;
     this.greyImage = null;
     var tmp$, tmp$_0;
     this.greyCanvas = Kotlin.isType(tmp$ = document.createElement('canvas'), HTMLCanvasElement) ? tmp$ : throwCCE();
+    var x_0 = adjustForFrameRate(this.fadeInterval);
+    this.fadeIntervalFrames = numberToInt(Math_0.ceil(x_0));
+    this.fadeStep = numberToInt(adjustForFrameRate(this.fadeDelay));
     this.greyCanvas.width = numberToInt(this.width);
     this.greyCanvas.height = numberToInt(this.height);
     var ctx = Kotlin.isType(tmp$_0 = this.greyCanvas.getContext('2d'), CanvasRenderingContext2D) ? tmp$_0 : throwCCE();
@@ -155,6 +171,7 @@ var Kotlicles = function (_, Kotlin) {
   };
   GreyoutIcon.prototype.onMouseOverUpdate_f69bme$ = function (ctx) {
     if (this.step > 0) {
+      this.fadeStep = this.fadeIntervalFrames;
       this.step = this.step - 2 | 0;
     }
   };
@@ -165,6 +182,14 @@ var Kotlicles = function (_, Kotlin) {
     ctx.save();
     ctx.globalCompositeOperation = 'source-over';
     ctx.drawImage(this.greyCanvas, this.locationX, this.locationY);
+    if (this.fadeInterval > 0) {
+      this.fadeStep = this.fadeStep - 1 | 0;
+      if (this.fadeStep < 20) {
+        this.step = this.step - 2 | 0;
+      }
+      if (this.fadeStep <= 0)
+        this.fadeStep = this.fadeIntervalFrames;
+    }
     if (this.step < this.fadeFrames) {
       this.step = this.step + 1 | 0;
       ctx.globalAlpha = (this.fadeFrames - this.step | 0) * (1 / this.fadeFrames);
@@ -215,7 +240,7 @@ var Kotlicles = function (_, Kotlin) {
     interfaces: [Animatable, Drawable]
   };
   function HueColorAnimation() {
-    this.h = numberToInt(Math.random() * 360);
+    this.h = numberToInt(random() * 360);
     this.s = 100;
     this.l = 50;
   }
@@ -259,7 +284,6 @@ var Kotlicles = function (_, Kotlin) {
     simpleName: 'LineHelix',
     interfaces: [Animatable, Drawable]
   };
-  var Array_0 = Array;
   function NHelix(dynamics, radius, n) {
     this.dynamics = dynamics;
     this.radius = radius;
@@ -542,9 +566,6 @@ var Kotlicles = function (_, Kotlin) {
     simpleName: 'VisualParameters',
     interfaces: []
   };
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   function MultilineGlowingText(text, font, color, fadeInTime, lineTime, locationX, locationY, centered) {
     MultilineText.call(this, lineTime);
     this.font = font;
@@ -568,8 +589,9 @@ var Kotlicles = function (_, Kotlin) {
     tmp$_0 = destination.iterator();
     while (tmp$_0.hasNext()) {
       var item = tmp$_0.next();
-      index = index + 1 | 0;
-      destination_0.add_11rb$(new GlowingSingleLineText(item, this.font, this.color, this.fadeInTime, this.locationX, this.locationY, this.centered));
+      var tmp$_1 = destination_0.add_11rb$;
+      checkIndexOverflow((tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0));
+      tmp$_1.call(destination_0, new GlowingSingleLineText(item, this.font, this.color, this.fadeInTime, this.locationX, this.locationY, this.centered));
     }
     this.lines_xxfx6y$_0 = destination_0;
   }
@@ -731,7 +753,7 @@ var Kotlicles = function (_, Kotlin) {
       var item = tmp$_0.next();
       var tmp$_1 = destination_0.add_11rb$;
       var closure$color = color;
-      var index_0 = (tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0);
+      var index_0 = checkIndexOverflow((tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0));
       var tmp$_2 = this.framesPrChar;
       var tmp$_3 = this.startingLocationX;
       var tmp$_4 = this.startingLocationY;
@@ -750,7 +772,6 @@ var Kotlicles = function (_, Kotlin) {
     simpleName: 'MultilineTypingText',
     interfaces: [MultilineText, Animatable]
   };
-  var copyToArray = Kotlin.kotlin.collections.copyToArray;
   function MultilineTypingText_init(text, font, framesPrChar, lineWait, startingLocationX, startingLocationY, centered, color, $this) {
     if (color === void 0)
       color = '#000';
@@ -939,7 +960,7 @@ var Kotlicles = function (_, Kotlin) {
       var item = $receiver[tmp$];
       var index_0 = (tmp$_0 = index, index = tmp$_0 + 1 | 0, tmp$_0);
       if (item == null || item.isOutOfBounds_vux9f0$(this.ctx_0.canvas.width, this.ctx_0.canvas.height)) {
-        if (Math.random() < 0.1) {
+        if (random() < 0.1) {
           this.particles[index_0] = this.randomDoubleHelix();
         }
          else {
@@ -952,17 +973,17 @@ var Kotlicles = function (_, Kotlin) {
     return new Particle(new Dynamics(500.0, 500.0, 50.0, 0.1, 0.1, 0.0), 50.0);
   };
   HelixPage.prototype.randomParticle = function () {
-    return new Particle(new Dynamics(Math.random() * this.ctx_0.canvas.width, Math.random() * this.ctx_0.canvas.height, Math.random() * 2 * Math.PI, this.randomizeWithMinimum_yvo9jy$(-2.0, 2.0, 0.2), this.randomizeWithMinimum_yvo9jy$(-2.0, 2.0, 0.2), this.randomizeWithMinimum_yvo9jy$(-0.5, 0.5, 0.05)), 20.0);
+    return new Particle(new Dynamics(random() * this.ctx_0.canvas.width, random() * this.ctx_0.canvas.height, random() * 2 * math.PI, this.randomizeWithMinimum_yvo9jy$(-2.0, 2.0, 0.2), this.randomizeWithMinimum_yvo9jy$(-2.0, 2.0, 0.2), this.randomizeWithMinimum_yvo9jy$(-0.5, 0.5, 0.05)), 20.0);
   };
   HelixPage.prototype.randomHelix = function () {
-    return new LineHelix(new Dynamics(Math.random() * this.ctx_0.canvas.width, Math.random() * this.ctx_0.canvas.height, Math.random() * 2 * Math.PI, this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.1), this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.1), this.randomizeWithMinimum_yvo9jy$(-0.125, 0.125, 0.005)), 30.0);
+    return new LineHelix(new Dynamics(random() * this.ctx_0.canvas.width, random() * this.ctx_0.canvas.height, random() * 2 * math.PI, this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.1), this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.1), this.randomizeWithMinimum_yvo9jy$(-0.125, 0.125, 0.005)), 30.0);
   };
   HelixPage.prototype.randomDoubleHelix = function () {
-    return new NHelix(new Dynamics(Math.random() * this.ctx_0.canvas.width, Math.random() * this.ctx_0.canvas.height, Math.random() * 2 * Math.PI, this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.15), this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.15), this.randomizeWithMinimum_yvo9jy$(-0.1, 0.1, 0.005)), 30.0, 2);
+    return new NHelix(new Dynamics(random() * this.ctx_0.canvas.width, random() * this.ctx_0.canvas.height, random() * 2 * math.PI, this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.15), this.randomizeWithMinimum_yvo9jy$(-1.0, 1.0, 0.15), this.randomizeWithMinimum_yvo9jy$(-0.1, 0.1, 0.005)), 30.0, 2);
   };
   HelixPage.prototype.randomizeWithMinimum_yvo9jy$ = function (min, max, lowerValue) {
-    var ans = Math.random() * (max + Math.abs(min)) + min;
-    if (Math.abs(ans) < lowerValue) {
+    var ans = random() * (max + Math_0.abs(min)) + min;
+    if (Math_0.abs(ans) < lowerValue) {
       if (ans < 0) {
         ans -= lowerValue;
       }
@@ -1082,11 +1103,11 @@ var Kotlicles = function (_, Kotlin) {
     this.socialX = this.centerX - this.socialDim / 2 - this.socialDim / 2;
     this.socialY = this.ctx.canvas.height - this.socialDim - this.padding;
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
-    this.facebook = new GreyoutIcon(Kotlin.isType(tmp$ = document.getElementById('facebook'), HTMLImageElement) ? tmp$ : throwCCE(), this.socialX + -2 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$facebook$lambda);
-    this.twitter = new GreyoutIcon(Kotlin.isType(tmp$_0 = document.getElementById('twitter'), HTMLImageElement) ? tmp$_0 : throwCCE(), this.socialX + -1 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$twitter$lambda);
-    this.git = new GreyoutIcon(Kotlin.isType(tmp$_1 = document.getElementById('git'), HTMLImageElement) ? tmp$_1 : throwCCE(), this.socialX + 0 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$git$lambda);
-    this.linkedin = new GreyoutIcon(Kotlin.isType(tmp$_2 = document.getElementById('linkedin'), HTMLImageElement) ? tmp$_2 : throwCCE(), this.socialX + 1 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$linkedin$lambda);
-    this.mail = new GreyoutIcon(Kotlin.isType(tmp$_3 = document.getElementById('gmail'), HTMLImageElement) ? tmp$_3 : throwCCE(), this.socialX + 2 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$mail$lambda);
+    this.facebook = new GreyoutIcon(Kotlin.isType(tmp$ = document.getElementById('facebook'), HTMLImageElement) ? tmp$ : throwCCE(), this.socialX + -2 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$facebook$lambda, 400, 10);
+    this.twitter = new GreyoutIcon(Kotlin.isType(tmp$_0 = document.getElementById('twitter'), HTMLImageElement) ? tmp$_0 : throwCCE(), this.socialX + -1 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$twitter$lambda, 400, 20);
+    this.git = new GreyoutIcon(Kotlin.isType(tmp$_1 = document.getElementById('git'), HTMLImageElement) ? tmp$_1 : throwCCE(), this.socialX + 0 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$git$lambda, 400, 30);
+    this.linkedin = new GreyoutIcon(Kotlin.isType(tmp$_2 = document.getElementById('linkedin'), HTMLImageElement) ? tmp$_2 : throwCCE(), this.socialX + 1 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$linkedin$lambda, 400, 40);
+    this.mail = new GreyoutIcon(Kotlin.isType(tmp$_3 = document.getElementById('gmail'), HTMLImageElement) ? tmp$_3 : throwCCE(), this.socialX + 2 * (this.padding + this.socialDim), this.socialY, this.socialDim, this.socialDim, this.fadeFrames, IndexPage$mail$lambda, 400, 50);
     this.ximias = new GreyoutIcon(Kotlin.isType(tmp$_4 = document.getElementById('ximias'), HTMLImageElement) ? tmp$_4 : throwCCE(), this.centerX - 128, (this.ctx.canvas.height / 2 | 0) - 128.0, 256.0, 256.0, this.fadeFrames, IndexPage$ximias$lambda);
     this.quotes = (new MultilineLoopingPulsingText(Kotlin.isType(tmp$_5 = document.getElementById('inspiration'), HTMLParagraphElement) ? tmp$_5 : throwCCE(), FADE_TIME, '80px verdana', '#F48A00', 800, this.centerX, 85.0, true, 150)).fitToWidth_ggs6sk$(this.ctx, this.ctx.canvas.width > this.ctx.canvas.height ? this.ctx.canvas.width / 2 | 0 : this.ctx.canvas.width);
     this.mouseElements = listOf_0([this.facebook, this.twitter, this.git, this.linkedin, this.mail, this.ximias]);
@@ -1492,6 +1513,10 @@ var Kotlicles = function (_, Kotlin) {
       }
     }
   }
+  var rand;
+  function random() {
+    return rand.nextDouble();
+  }
   function adjustForFrameRate(framesIn60) {
     return framesIn60 * (fps / 60.0);
   }
@@ -1581,12 +1606,19 @@ var Kotlicles = function (_, Kotlin) {
     }
   });
   package$Pages.frameRateCalculator_f69bme$ = frameRateCalculator;
+  Object.defineProperty(package$Pages, 'rand', {
+    get: function () {
+      return rand;
+    }
+  });
+  package$Pages.random = random;
   package$Pages.adjustForFrameRate_14dthe$ = adjustForFrameRate;
   introPage = null;
   FADE_TIME = 255;
   frameCalCount = 0;
   startTime = new Date();
   fps = 60.0;
+  rand = Random(1911);
   main([]);
   Kotlin.defineModule('Kotlicles', _);
   return _;
